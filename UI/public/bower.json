@@ -1,0 +1,23 @@
+{
+  "name": "public",
+  "version": "0.0.0",
+  "homepage": "https://github.com/rjsteinert/Pimometer",
+  "authors": [
+    "rjsteinert <rj@rjsteinert.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone-forms": "~0.14.0",
+    "backbone": "~1.1.2",
+    "bootstrap": "~3.1.1",
+    "jquery": "~2.1.0"
+  }
+}

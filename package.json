@@ -1,0 +1,28 @@
+{
+  "name": "Fido",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~3.4.8",
+    "getmac": "~1.0.6",
+    "commander":"2.1.0",
+    "underscore":"1.6.0",
+    "moment": "~2.5.1",
+    "request": "~2.34.0",
+    "socket.io": "~0.8.7",
+    "nodemailer": "0.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rjsteinert/Pimometer.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "gitHead": "20378dfb97e621841450ae25af78c2d4857a6585"
+}

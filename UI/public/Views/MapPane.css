@@ -1,0 +1,11 @@
+#map-pane {
+  background: #64c074;
+  position: absolute;
+  top:0;
+  left:0;
+}
+.map-container {
+  overflow: hidden;
+  position: relative;
+}
+

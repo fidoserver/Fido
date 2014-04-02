@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Pimometer</title>
+</head>
+<body>
+   
+    <div id="left-container">
+      <div class="content">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+    <div id="right-container">
+      <div class="content">
+        <div class="left-pane" id="left-pane"> 
+          <div id="settings-button">
+            <a href="#"><img src='img/gear-50-white.png'></a>
+          </div>
+
+        </div>
+        <div class="right-pane"> 
+
+        </div>
+      </div>
+    </div>
+
+    <!--
+      Scripts
+      -->
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/backbone-forms/distribution/backbone-forms.min.js"></script>
+    <script src="bower_components/backbone-forms/distribution/templates/bootstrap3.js"></script>
+    <script src="vendor/js/smoothie.js"></script>
+    <script src="vendor/js/moment.min.js"></script>
+    <script src="vendor/js/locationpicker.jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+
+    <script src="app.js"></script>
+    <script src="Models/Settings.js"></script>
+
+    <!-- 
+      Views 
+      -->
+    <script src="Views/SensorReadingLive.js"></script>
+    <link rel="stylesheet" href="Views/SensorReadingLive.css">
+    <script src="Views/SensorReadingsLiveGraph.js"></script>
+    <link rel="stylesheet" href="Views/SensorReadingsLiveGraph.css">
+    <script src="Views/SensorReadingsLiveAggregateGraph.js"></script>
+    <link rel="stylesheet" href="Views/SensorReadingsLiveAggregateGraph.css">
+    <script src="Views/SettingsForm.js"></script>
+    <link rel="stylesheet" href="Views/SettingsForm.css">
+    <script src="Views/MapPane.js"></script>
+    <link rel="stylesheet" href="Views/MapPane.css">
+
+    <!-- 
+      Stylesheets
+      -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/backbone-forms/distribution/templates/bootstrap3.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Views/SensorReadingLive.css">
+
+
+    <script type="text/template" id="template-MapPane">
+      <div id="map-pane"></div>
+    </script>
+
+
+    <script type="text/template" id="template-SensorReadingsLiveGraph">
+      <div style="position:relative">
+        <canvas id="chart"></canvas>
+      </div>
+    </script>
+
+
+    <script type="text/template" id="template-SensorReadingsLiveAggregateGraph">
+      <div style="position:relative">
+        <canvas id="chart"></canvas>
+      </div>
+    </script>
+
+
+    <script type="text/template" id="template-SensorReadingLive">
+      <div class='reading'>
+        <%= reading %>
+      </div>
+    </script>
+
+
+    <!--
+      START THE APP
+      -->
+
+    <script> 
+      $(document).ready(function() {  
+        App.start()
+      })
+    </script>
+   
+
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+.SettingsForm {
+	position: relative;
+  width: 320px;
+	left: 15px;
+}
+
+.SettingsForm h2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.SettingsForm label, .SettingsForm input {
+	width: 250px;
+	text-align: left !important;
+}
+
+.SettingsForm .form-group {
+  margin-bottom: 0px !important;
+}
+
+.SettingsForm #save {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+

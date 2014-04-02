@@ -1,0 +1,29 @@
+
+.SensorReadingLive {
+  position: absolute;
+  width: 300px;
+  z-index: 1;
+}
+
+.reading {
+  margin: auto auto;
+  color: #FFF;
+  font-size: 75px;
+  font-weight: bolder;
+  text-align: center;
+  -webkit-stroke-width: 5.3px;
+
+   -webkit-stroke-color: #FFFFFF;
+
+   -webkit-fill-color: #FFFFFF;
+
+   text-shadow: 1px 0px 20px black;
+
+   -webkit-transition: width 0.3s; /*Safari & Chrome*/
+
+   transition: width 0.3s;
+
+   -moz-transition: width 0.3s; /* Firefox 4 */
+
+   -o-transition: width 0.3s; /* Opera */
+}
