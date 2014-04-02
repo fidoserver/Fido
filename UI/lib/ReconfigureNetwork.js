@@ -20,45 +20,39 @@ module.exports = function(wirelessSSID, password, wirelessSecurityType, callback
   switch (wirelessSecurityType) {
 
     case 'none': 
-      l.g('RECONFIGURING SECURITY:NONE')
+      callback('RECONFIGURING SECURITY:NONE')
       var fileName = __dirname + '/interfaces.none.template'
       fs.readFile(fileName, 'utf8', function (err,data) {
-        if (err) return l.g(err)
+        if (err) return callback(err)
         var result = data.replace("WIRELESSSSID", wirelessSSID)
         var fileName = '/etc/network/interfaces'
         fs.writeFile(fileName, result, 'utf8', function (err) {
-          if (err) return l.g(err)
-          return callback() 
-        })
-      })
-      break
-
-    case 'WEP': 
-      l.g('RECONFIGURING WEP')
-      var fileName = __dirname + '/interfaces.wep.template'
-      fs.readFile(fileName, 'utf8', function (err,data) {
-        if (err) return l.g(err)
-        var result = data.replace("WIRELESSSSID", wirelessSSID)
-        var result = result.replace("WIRELESSKEY", password)
-        var fileName = '/etc/network/interfaces'
-        fs.writeFile(fileName, result, 'utf8', function (err) {
-          if (err) return l.g(err)
+          if (err) return callback(err)
           return callback() 
         })
       })
       break
 
     case 'WPA':
-      l.g('RECONFIGURING WPA')
+      callback('RECONFIGURING WPA')
       var fileName = __dirname + '/interfaces.wpa.template'
       fs.readFile(fileName, 'utf8', function (err,data) {
-        if (err) return l.g(err)
+        if (err) return callback(err)
         var fileName = '/etc/network/interfaces'
         fs.writeFile(fileName, data, 'utf8', function (err) {
-          if (err) return l.g(err)
-          var cmd = '/home/pi/Pimometer/lib/wpa.sh ' + wirelessSSID + ' ' + password
-          exec(cmd, function(err, stdout, stderr) {
-            return callback()
+          if (err) return callback(err)
+          fs.readFile(__dirname + '/wpa_supplicant.conf.template', function(err, data) {
+            if (err) return callback(err)
+            $wpa_supplicant_conf = data
+            var cmd = 'wpa_passphrase "' + wirelessSSID + '" "' + password + '"'
+            exec(cmd, function(err, stdout, stderr) {
+              if (err) return callback(err)
+              $wpa_supplicant_conf = $wpa_supplicant_conf + stdout
+              fs.writeFile('/etc/wpa_supplicant/wpa_supplicant.conf', $wpa_supplicant_conf, function(err) {
+                if (err) return callback(err)
+                return callback()
+              })
+            })
           })
         })
       })
