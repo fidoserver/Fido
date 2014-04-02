@@ -7,7 +7,6 @@
 ## install dependency of Hive for data logging 
 
 git clone Hive to /root/Hive
-
 Follow directions in /root/Hive/README.md
 
 
@@ -22,7 +21,10 @@ sudo ln -s /usr/local/bin/node /usr/bin/node;
 cp /root/Fido/util/init.d/node /etc/init.d/node;
 cd /root/Fido;
 npm install;
+/root/Hive/start;
 node /root/Fido/Bee/birth.js;
+reboot;
+```
 
 
 
