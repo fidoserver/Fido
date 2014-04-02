@@ -47,7 +47,8 @@ status)
         fi
 ;;
 stop)
-  /usr/local/bin/forever stopall
+  killall node;
+  killall node;
 ;;
 
 restart)
