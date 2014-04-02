@@ -1,8 +1,8 @@
 #!/bin/sh
 
 /usr/local/bin/forever -a -l fido.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/UI/server.js
-/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Hive/Beekeeper/server.js
-/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Hive/Honeycomb/server.js
-/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Hive/Queen/server.js
+/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Hive/Beekeeper/server.js
+/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Hive/Honeycomb/server.js
+/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Hive/Queen/server.js
 /usr/local/bin/forever -a -l fido.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Sensors/temper1/process.js
 /usr/local/bin/forever -a -l fido.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Bee/process.js
