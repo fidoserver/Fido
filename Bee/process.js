@@ -28,6 +28,7 @@ var getMacAddress = function() {
 
 // Check for existence of our Bee in the Hive
 var checkForBeeInHive = function() {
+  l.g('Checking for existense of us as a Bee.')
   configDb.view('api', 'BeesByAddress', {keys: [macAddress]}, function (err, response) {
     if(err) l.g(err)
       console.log(JSON.stringify(response.rows))
@@ -40,8 +41,9 @@ var checkForBeeInHive = function() {
 
 // If no Bee in the Hive, create us
 var createBee = function() {
+  l.g('Bee not found. Creating us.')
   request({ 
-    "url": Settings.Queen.URL + "/egg/new", 
+    "url": HiveSettings.Queen.URL + "/egg/new", 
     method: "POST", 
     json: {
       "sensors": ["0x02"], 
