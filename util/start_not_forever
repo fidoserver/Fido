@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Starting the Fido UI"
+#node /root/Fido/UI/server.js 1>> /var/log/fido.log 2>&1 & echo $! ;
+
+echo "Starting Hive processes for saving data"
+node /root/Hive/Router/server.js 1>> /var/log/hive.log 2>&1 & echo $! ;
+# node /root/Hive/Router/redirect_port_80_to_beekeeper.js 1>> /var/log/hive.log 2>&1 & echo $! &
+node /root/Hive/Beekeeper/server.js 1>> /var/log/hive.log 2>&1 & echo $! ;
+node /root/Hive/Honeycomb/server.js 1>> /var/log/hive.log 2>&1 & echo $! ;
+node /root/Hive/Queen/server.js  1>> /var/log/hive.log 2>&1 & echo $! ;
+
+echo "Starting the sensor polling operation that will save the temperature to disk at an interval"
+#node /root/Fido/Sensors/temper1/process.js 1>> /var/log/fido.log 2>&1 & echo $! ;
+
+echo "Starting the Bee process that at an interval will take the current temperature from disk and save it using Hive's Honeycomb service."
+#node /root/Fido/Bee/birth.js 1>> /var/log/fido.log 2>&1 & echo $! ;
+#node /root/Fido/Bee/process.js 1>> /var/log/fido.log 2>&1 & echo $! ;

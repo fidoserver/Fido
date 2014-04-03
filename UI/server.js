@@ -3,7 +3,7 @@ var _ = require('underscore')
 var l = require('../lib/log.js')
 var sendMail = require('./lib/SendEmail.js')
 var convertCtoF = require('./lib/ConvertCtoF.js')
-l.context = 'server.js'
+l.context = __filename
 
 var sensorPollIntervalDuringSocketIoConnection = 1000
 var alertMonitorFrequency = 5000
@@ -26,7 +26,7 @@ app.use(require('express').bodyParser())
  */
 
 app.get('/settings', function(req, res) {
-  fs.readFile(__dirname + "/settings.json", function(err, body) {
+  fs.readFile(__dirname + "/../settings.json", function(err, body) {
     if (err)  l.g(err) 
     if (!body) body = '{}'
     res.send(body)
@@ -36,7 +36,7 @@ app.get('/settings', function(req, res) {
 app.post('/settings', function(req, res) {
   var newSettings = req.body
   var newWifiSettings = false
-  fs.readFile(__dirname + "/settings.json",{encoding: 'utf8'}, function(err, body) {
+  fs.readFile(__dirname + "/../settings.json",{encoding: 'utf8'}, function(err, body) {
     if (body) {
       var oldSettings = JSON.parse(body)
     }
@@ -48,7 +48,7 @@ app.post('/settings', function(req, res) {
       || newSettings.hostName !== oldSettings.hostName) {
         newWifiSettings = true  
     }
-    fs.writeFile(__dirname + "/settings.json", JSON.stringify(newSettings), function(err) {
+    fs.writeFile(__dirname + "/../settings.json", JSON.stringify(newSettings), function(err) {
       if (err) return l.g(err)
       if (newWifiSettings == true) {
         require('./lib/ReconfigureNetwork')(newSettings.wifiSSID, newSettings.wifiPassword, newSettings.wifiSecurityType, function(err) {
@@ -78,13 +78,11 @@ app.get(/^(.+)$/, function(req, res) {
  */
 
 io.sockets.on('connection', function(socket){
-  l.g('User connected')
+  l.g('User connected via socket.io')
   // set interval
   // @todo Look for no connection and kill this timer
   setInterval(function(){
-    l.g('read temperature')
     fs.readFile('/srv/tmp/temper1', {encoding:'utf8'}, function(err, value) {
-      l.g('emit temperature')
       socket.emit('temperature',{number: value})
     })
   }, sensorPollIntervalDuringSocketIoConnection)
@@ -101,7 +99,7 @@ io.sockets.on('connection', function(socket){
  */
 setInterval(function() {
 
-  fs.readFile(__dirname + '/settings.json', {encoding:'utf8'}, function(err, body) {
+  fs.readFile(__dirname + '/../settings.json', {encoding:'utf8'}, function(err, body) {
     if (err) return l.g(err)
     if (body == "") return
     var settings = JSON.parse(body) 
@@ -109,7 +107,7 @@ setInterval(function() {
       || settings.alertSwitch == "off" 
       || settings.alertSwitch == "" 
       || settings.alertSwitch == null) 
-        return l.g('Alerts are off') 
+        return  
 
     fs.readFile('/srv/tmp/temper1', {encoding:'utf8'}, function(err, value) {
       l.g('value found to evaluate for trigger: ' + value)
@@ -120,7 +118,7 @@ setInterval(function() {
           if(err) l.g(err)  
         })    
         settings.alertSwitch = 'off'
-        fs.writeFile(__dirname + '/settings.json', JSON.stringify(settings), function(err) {
+        fs.writeFile(__dirname + '/../settings.json', JSON.stringify(settings), function(err) {
           if(err) l.g(err)  
         }) 
       }
@@ -132,7 +130,7 @@ setInterval(function() {
 
         })    
         settings.alertSwitch = 'off'
-        fs.writeFile(__dirname + '/settings.json', JSON.stringify(settings), function(err) {
+        fs.writeFile(__dirname + '/../settings.json', JSON.stringify(settings), function(err) {
           if(err) return l.g(err)  
         }) 
       }
@@ -167,4 +165,7 @@ setInterval(function() {
 }, 60*1000)
 l.g('I\'m alive for ' + counter + ' minutes.')
 counter++
+
+
+console.log('forever::ready')
 

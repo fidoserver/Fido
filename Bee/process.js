@@ -1,14 +1,61 @@
 var request = require('request')
 var fs = require('fs')
 var moment = require('moment')
+var HiveSettings = require('../../Hive/Settings.js')
+var nano = require('nano')(HiveSettings.CouchDB.URL)
+var configDb = nano.db.use('config')
 var l = require('../lib/log.js')
-l.context = 'Bee/process.js'
+l.context = __filename 
+
 
 var interval = 60*1000
 
-fs.readFile(__dirname + '/macaddress','utf8', function(err, macAddress) {
+function go() {
+  getMacAddress()
+}
 
-  if(err) return console.log(err)
+// Get our macaddress
+
+var macAddress = ''
+
+var getMacAddress = function() {
+  require('getmac').getMac(function(err,data){
+    if (err) l.g(err)
+    macAddress = data
+    checkForBeeInHive()
+  })
+}
+
+// Check for existence of our Bee in the Hive
+var checkForBeeInHive = function() {
+  configDb.view('api', 'BeesByAddress', {keys: [macAddress]}, function (err, response) {
+    if(err) l.g(err)
+      console.log(JSON.stringify(response.rows))
+    if (response.rows == 0) 
+      createBee()
+    else
+      setTimer()
+  })
+}
+
+// If no Bee in the Hive, create us
+var createBee = function() {
+  request({ 
+    "url": Settings.Queen.URL + "/egg/new", 
+    method: "POST", 
+    json: {
+      "sensors": ["0x02"], 
+      "address": macAddress
+    }
+  }, function(err, response, body) {
+    if(err) return l.g(err)
+    l.g('birthed this bee')
+    return setTimer()
+  }) 
+}
+
+// Set the timer to poll the Hive at the interval
+var setTimer = function() {
 
   setInterval(function() {
 
@@ -16,42 +63,8 @@ fs.readFile(__dirname + '/macaddress','utf8', function(err, macAddress) {
 
       if(err) return console.log(err)
 
-      var celsius = value
-      var farenheit = ((celsius*9)/5) + 32 
-      
-      celsius = celsius.toString()
-      if(celsius.length > 5) celsius = celsius.substr(0,4)
-      if(celsius.length < 5) {
-        while(celsius.length < 5) {
-          if(celsius.indexOf('.') == -1) {
-            celsius += '.' 
-          }
-          else {
-            celsius += '0'
-          }
-        }
-      }
-
- 
-      farenheit = farenheit.toString()
-      if(farenheit.length > 5) farenheit = farenheit.substr(0,4)
-      if(farenheit.length < 5) {
-        while(farenheit.length < 5) {
-          if(farenheit.indexOf('.') == -1) {
-            farenheit += '.' 
-          }
-          else {
-            farenheit += '0'
-          }
-        }
-      }
-
-      console.log(moment().format('YYYY-MM-DD hh:mm:ss') + ' - ' + farenheit + ' - ' + celsius);
-
       var dateTime = moment().format("HH:mm:ss, DD/MM/YY")
-      celsius = parseInt(celsius) * 100
-      var data = JSON.parse('{"address":"' + macAddress + '", "data": {"' + dateTime + '": "' + celsius.toString(16) + '"}}') 
-      console.log(JSON.stringify(data))
+      var data = JSON.parse('{"address":"' + macAddress + '", "data": {"' + dateTime + '": "' + value.toString(16) + '"}}') 
       request({url:"http://127.0.0.1:126", method: "POST", json: data}, function(err, response, body) {
         if (err) return console.log(err)
       })
@@ -61,5 +74,8 @@ fs.readFile(__dirname + '/macaddress','utf8', function(err, macAddress) {
   }, interval)
 
   l.g('Timer set to poll at an interval of ' + interval)
+  console.log('forever::ready')
 
-})
+}
+
+go()

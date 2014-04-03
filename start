@@ -1,8 +1,36 @@
-#!/bin/sh
+#!/usr/bin/env node
 
-/usr/local/bin/forever -a -l fido.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/UI/server.js
-/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Hive/Beekeeper/server.js
-/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Hive/Honeycomb/server.js
-/usr/local/bin/forever -a -l hive.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Hive/Queen/server.js
-/usr/local/bin/forever -a -l fido.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Sensors/temper1/process.js
-/usr/local/bin/forever -a -l fido.log -p /var/log/ --minUptime 1000 --spinSleepTime 1000 start /root/Fido/Bee/process.js
+var StringDecoder = require('string_decoder').StringDecoder;
+var fs = require('fs')
+var foreverMonitor = require('forever-monitor');
+var l = require('./lib/log.js')
+l.context = __filename
+
+var processes = JSON.parse(fs.readFileSync(__dirname + '/processes.json'))
+
+var i = 0
+var startNextProcess = function(process) {
+  if (process == undefined) return done() 
+  var child = new (foreverMonitor.Monitor)(process.file, process.options)
+  child.on('start', function(foreverProcess, data) {
+    l.g('Starting ' + process.file)
+  })
+  child.on('stdout', function(stdout) {
+    var decoder = new StringDecoder('utf8');
+    stdout = decoder.write(stdout)
+    if (stdout.search(process.readyMessage) !== -1) {
+      l.g(process.file + ' child is ready')
+      return startNextProcess(processes.shift())
+    }
+  })
+  child.start()
+}
+
+var done = function() {
+  console.log(fs.readFileSync(__dirname + '/util/fido.txt', 'utf-8'))
+  return l.g('All systems go.')
+}
+
+startNextProcess(processes.shift())
+
+

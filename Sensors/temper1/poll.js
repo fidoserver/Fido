@@ -1,6 +1,6 @@
 var fs = require('fs')
 var l = require('../../lib/log.js')
-l.context = 'Sensors/temper1/poll.js'
+l.context = __filename 
 
 var thermometers=require("temper1")
 var devices=thermometers.getDevices()
@@ -10,7 +10,7 @@ thermometers.readTemperature(devices[0], function(err, value) {
   if(err) return l.g(err)
   fs.writeFile("/srv/tmp/temper1", value, function(err) {
     if(err) return l.g(err)
-      console.log('wrote ' + value)
+    console.log('wrote ' + value)
   })
 })
 
