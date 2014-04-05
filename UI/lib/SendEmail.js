@@ -4,7 +4,7 @@ var l = require('../../lib/log.js')
 l.context = __dirname + __filename 
 
 module.exports = function(message, callback) {
-  fs.readFile(__dirname + '/../settings.json',{encoding:'utf8'}, function(err, body) {
+  fs.readFile(__dirname + '/../../settings.json',{encoding:'utf8'}, function(err, body) {
     if(err) return l.g(err) 
     var settings = JSON.parse(body)
 
