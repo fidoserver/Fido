@@ -30,8 +30,8 @@ $(function() {
       var locationPickerSettings = { 
         inputBinding: {
           //locationNameInput: $('#search-by-address'), 
-          latitudeInput: $('#c3_latitude'), 
-          longitudeInput: $('#c3_longitude')
+          latitudeInput: $('input[name="latitude"]'), 
+          longitudeInput: $('input[name="longitude"]')
         },
         enableAutocomplete: true
       }

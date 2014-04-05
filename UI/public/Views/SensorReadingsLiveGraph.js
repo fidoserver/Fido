@@ -46,7 +46,7 @@ $(function() {
 
       var socket = io.connect('/');
       socket.on('temperature',function(data){
-        console.log(moment().format() + ' - data received - ' + JSON.stringify(data))
+        //console.log(moment().format() + ' - data received - ' + JSON.stringify(data))
         var reading
         if (SensorReadingsLiveGraph.params.scale == 'Farenheit') {
           reading = SensorReadingsLiveGraph.formatAsFarenheit(parseInt(data.number))
