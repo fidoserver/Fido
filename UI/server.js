@@ -17,6 +17,7 @@ var alertMonitorFrequency = 5000
 var app = require('express')()
 var server = require('http').Server(app)
 var io = require('socket.io').listen(server)
+io.set('log level', 1)
 app.use(require('express').bodyParser())
 
 
