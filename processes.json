@@ -10,6 +10,17 @@
     "readyMessage": "forever::ready"
   },
   {
+    "file": "Connect/process.js",
+    "options": {
+      "max": 3,
+      "silent": true,
+      "outFile": "/var/log/fido.log",
+      "errFile": "/var/log/fido.log"
+    },
+    "readyMessage": "forever::ready"
+  },
+
+  {
     "file": "../Hive/Queen/server.js",
     "options": {
       "max": 3,

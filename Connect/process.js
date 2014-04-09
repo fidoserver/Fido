@@ -2,10 +2,13 @@ var fs = require('fs')
 var request = require('request')
 var _ = require('underscore')
 var l = require('../lib/log.js')
-var Config = JSON.parse(fs.readFileSync('../config.json', {encoding:'utf8'})) 
+var Config = JSON.parse(fs.readFileSync(__dirname + '/../config.json', {encoding:'utf8'})) 
 l.context = __filename
 
+var interval = 60*1000
+
 require('getmac').getMac(function(err,macAddress){
+
   deviceId = macAddress
   l.g('deviceId: ' + deviceId)
 
@@ -23,7 +26,6 @@ require('getmac').getMac(function(err,macAddress){
     )
   }
   callHome()
-  setInterval(callHome, 5000)
+  setInterval(interval, 5000)
   console.log('forever::ready')
 })
-
