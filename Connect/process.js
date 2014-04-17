@@ -25,7 +25,9 @@ require('getmac').getMac(function(err,macAddress){
       }
     )
   }
+
   callHome()
-  setInterval(interval, 5000)
+  setInterval(callHome, interval)
   console.log('forever::ready')
+
 })
