@@ -13,6 +13,7 @@ require('getmac').getMac(function(err,macAddress){
   l.g('deviceId: ' + deviceId)
 
   var callHome = function() {
+    l.g('Calling home')
     request(
       {
         method: 'POST',
