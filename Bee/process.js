@@ -1,12 +1,14 @@
-var request = require('request')
 var fs = require('fs')
+var settings = fs.readFileSync(__dirname + '/../settings.js')
 var moment = require('moment')
-var HiveSettings = require('../../Hive/Settings.js')
-var nano = require('nano')(HiveSettings.CouchDB.URL)
-var configDb = nano.db.use('config')
+var request = require('request')
+var hiveCouchDb = require('nano')(settings.Hive.CouchDb.Url)
+var configDb = hiveCouchDb.db.use('config')
 var l = require('../lib/log.js')
 l.context = __filename 
 
+// If no Hive settings, quit
+if (!settings.hasOwnProperty('Hive')) return
 
 var interval = 5*60*1000
 
@@ -43,7 +45,7 @@ var checkForBeeInHive = function() {
 var createBee = function() {
   l.g('Bee not found. Creating us.')
   request({ 
-    "url": HiveSettings.Queen.URL + "/egg/new", 
+    "url": settings.Hive.Queen.Url + "/egg/new", 
     method: "POST", 
     json: {
       "sensors": ["0x02"], 
@@ -67,7 +69,7 @@ var setTimer = function() {
 
       var dateTime = moment().format("HH:mm:ss, DD/MM/YY")
       var data = JSON.parse('{"address":"' + macAddress + '", "data": {"' + dateTime + '": "' + value.toString(16) + '"}}') 
-      request({url:"http://127.0.0.1:126", method: "POST", json: data}, function(err, response, body) {
+      request({url:settings.Hive.Honeycomb.Url, method: "POST", json: data}, function(err, response, body) {
         if (err) return console.log(err)
       })
       

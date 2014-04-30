@@ -19,37 +19,6 @@
     },
     "readyMessage": "forever::ready"
   },
-
-  {
-    "file": "../Hive/Queen/server.js",
-    "options": {
-      "max": 3,
-      "silent": true,
-      "outFile": "/var/log/hive.log",
-      "errFile": "/var/log/hive.log"
-    },
-    "readyMessage": "server listening on port 125"
-  },
-  {
-    "file": "../Hive/Honeycomb/server.js",
-    "options": {
-      "max": 3,
-      "silent": true,
-      "outFile": "/var/log/hive.log",
-      "errFile": "/var/log/hive.log"
-    },
-    "readyMessage": "server listening on port 126"
-  },
-  {
-    "file": "../Hive/Beekeeper/server.js",
-    "options": {
-      "max": 3,
-      "silent": true,
-      "outFile": "/var/log/hive.log",
-      "errFile": "/var/log/hive.log"
-    },
-    "readyMessage": "UI listening on port 8800" 
-  },
   {
     "file": "Sensors/temper1/process.js",
     "options": {
