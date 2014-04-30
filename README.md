@@ -1,14 +1,9 @@
+# About
+
+Fido is a program that will monitor temperatures on Temper1 USB sensors and send text messages to user defined phone number, temperature max, and temperature min.  It broadcasts a Web UI on the LAN it's connected to where the device can be configured.  The UI offers additional settings for joining Wifi networks, configuring the URL of the device on the LAN, and setting the GPS location of the device.
+
 
 # Install
-
-
-## install dependency of Hive for data logging 
-
-git clone Hive to /root/Hive
-Follow directions in /root/Hive/README.md
-
-
-## install of Fido 
 
 ```
 npm install -g forever;
@@ -21,9 +16,9 @@ cp /root/Fido/util/init.d/node /etc/init.d/node;
 cd /root/Fido;
 npm install;
 cp /root/Fido/util/settings.default.json /root/Fido/settings.json
+cp /root/Fido/util/config.default.json /root/Fido/config.json
 reboot;
 ```
-
 
 # Credits and License
 

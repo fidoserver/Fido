@@ -1,0 +1,10 @@
+{
+  "Home": {
+    "Url": "http://dogleash.treehouse.su:1337"
+  },
+  "Hive": {
+    "Queen": { "Url" : "http://hive.local:124" },
+    "CouchDb": { "Url": "http://hive.local:5984" },
+    "Honeycomb": { "Url": "http://hive.local:125" }
+  }
+}
