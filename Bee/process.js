@@ -8,7 +8,7 @@ var l = require('../lib/log.js')
 l.context = __filename 
 
 
-var interval = 60*1000
+var interval = 5*60*1000
 
 function go() {
   getMacAddress()
