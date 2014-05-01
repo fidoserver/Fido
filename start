@@ -11,7 +11,7 @@ var processes = JSON.parse(fs.readFileSync(__dirname + '/processes.json'))
 var i = 0
 var startNextProcess = function(process) {
   if (process == undefined) return done() 
-  var child = new (foreverMonitor.Monitor)(process.file, process.options)
+  var child = new (foreverMonitor.Monitor)(__dirname + '/' + process.file, process.options)
   child.on('start', function(foreverProcess, data) {
     l.g('Starting ' + process.file)
   })
