@@ -2,6 +2,9 @@
   "Home": {
     "Url": "http://dogleash.treehouse.su:1337"
   },
+  "Updater": {
+    "Url": "http://127.0.0.1:5024"
+  },
   "Hive": {
     "Queen": { "Url" : "http://hive.local:124" },
     "CouchDb": { "Url": "http://hive.local:5984" },

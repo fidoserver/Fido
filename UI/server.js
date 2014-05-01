@@ -1,8 +1,10 @@
 var fs = require('fs')
+var request = require('request-json')
 var _ = require('underscore')
 var l = require('../lib/log.js')
 var sendMail = require('./lib/SendEmail.js')
 var convertCtoF = require('./lib/ConvertCtoF.js')
+var config = JSON.parse(fs.readFileSync(__dirname + '/../config.json', 'utf8'))
 l.context = __filename
 
 var sensorPollIntervalDuringSocketIoConnection = 1000
@@ -25,6 +27,27 @@ app.use(require('express').bodyParser())
 /*
  * Express routes
  */
+
+app.get('/updater/get-available-updates', function(req, res) {
+  if(config.hasOwnProperty('Updater')) {
+    var client = request.newClient(config.Updater.Url)
+    client.get('get-available-updates', function(error, response, body) {
+      res.send(JSON.stringify(body))
+    })
+  }
+})
+
+app.get('/updater/run-available-updates', function(req, res) {
+  if(config.hasOwnProperty('Updater')) {
+    var client = request.newClient(config.Updater.Url)
+    client.get('run-available-updates', function(error, response, body) {
+      res.send(JSON.stringify(body))
+    })
+  }
+})
+  
+
+
 
 app.get('/settings', function(req, res) {
   fs.readFile(__dirname + "/../settings.json", function(err, body) {
