@@ -1,19 +1,36 @@
-<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Fido</title>
+    <meta name="viewport" content="width=device-width, initial-scale=.7, user-scalable=no">
 </head>
 <body>
-   
-    <div id="left-container">
+  
+      <!-- Modal -->
+      <div style="display:none;" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            ...
+          </div> 
+        </div> 
+      </div> 
+
+      <!-- Left Container -->
+      <div id="left-container">
       <div class="content">
         <canvas id="chart"></canvas>
       </div>
     </div>
 
+    <!-- Right Container -->
     <div id="right-container">
       <div class="content">
         <div class="left-pane" id="left-pane"> 
+
+          <button id="updates-available" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" style="display:none;">
+            *updates available 
+          </button>
+
           <div id="settings-button">
             <a href="#"><img src='img/gear-50-white.png'></a>
           </div>
@@ -24,6 +41,27 @@
         </div>
       </div>
     </div>
+
+    <!--
+      Templates
+      -->
+    <script type="text/template" id="template-UpdatesModal">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Updates Available</h4>
+          </div>
+          <div class="modal-body">
+            <!-- updates here --> 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success install-updates">install updates</button>
+          </div>
+    </script>
+
+    <script type="text/template" id="template-UpdateDiv">
+      <%= version %>: <%= description %>
+    </script>
 
     <!--
       Scripts
@@ -43,6 +81,8 @@
 
     <script src="app.js"></script>
     <script src="Models/Settings.js"></script>
+    <script src="Models/Update.js"></script>
+    <script src="Collections/Updates.js"></script>
 
     <!-- 
       Views 
@@ -57,6 +97,8 @@
     <link rel="stylesheet" href="Views/SettingsForm.css">
     <script src="Views/MapPane.js"></script>
     <link rel="stylesheet" href="Views/MapPane.css">
+    <script src="Views/UpdatesModal.js"></script>
+    <script src="Views/UpdateDiv.js"></script>
 
     <!-- 
       Stylesheets

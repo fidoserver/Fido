@@ -3,9 +3,36 @@ var App = {
   Views: {},
   Collections: {},
   start: function() {
-
     this.width = $(window).width()
     this.height = $(window).height()
+
+    // Check for updates every 60 seconds 
+    var updatesFound = false
+    $('#updates-available').css('top', App.height - 60)
+    var updates = new App.Collections.Updates()
+    var checkUpdatesInterval = setInterval(function() {
+      updates.fetch()
+    }, 10*1000)
+    updates.on('sync', function() {
+      if (updates.models.length > 0 && updatesFound == false) { 
+        // We found updates, show user
+        updatesFound = true
+        $('#updates-available').fadeIn()
+        var updatesModal = new App.Views.UpdatesModal()
+        updatesModal.collection = updates
+        $('.modal-content').html(updatesModal.el)
+        updatesModal.render()
+      }
+      else if (updatesFound == true && updates.models.length == 0) {
+        // There were updates, now there are not so we should reload the browser to use the new code
+        alert('Your Fido has been updated. Your browser will now reload to receive the updates.')
+        location.reload()
+      }
+      else {
+        // Do nothing
+      }
+    })
+    updates.fetch()
 
     // Settings button
     $("#settings-button" ).click(function() {
