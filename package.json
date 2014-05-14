@@ -1,11 +1,10 @@
 {
   "name": "Fido",
   "version": "0.0.0",
-  "description": "ERROR: No README.md file found!",
+  "description": "",
   "main": "server.js",
   "dependencies": {
     "express": "~3.4.8",
-    "getmac": "~1.0.6",
     "commander": "2.1.0",
     "underscore": "1.6.0",
     "moment": "~2.5.1",
@@ -13,7 +12,6 @@
     "socket.io": "~0.8.7",
     "forever-monitor": "1.2.3",
     "nano": "5.7.1",
-    "nodemailer": "0.6.0",
     "request-json": "~0.4.10"
   },
   "devDependencies": {},
@@ -26,6 +24,6 @@
     "url": "git://github.com/rjsteinert/Fido.git"
   },
   "author": "",
-  "license": "BSD",
+  "license": "AGPL-3",
   "gitHead": "20378dfb97e621841450ae25af78c2d4857a6585"
 }
