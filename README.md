@@ -2,6 +2,8 @@
 
 Fido is a program that will monitor temperatures on Temper1 USB sensors and send text messages to user defined phone number, temperature max, and temperature min.  It broadcasts a Web UI on the LAN it's connected to where the device can be configured.  The UI offers additional settings for joining Wifi networks, configuring the URL of the device on the LAN, and setting the GPS location of the device.
 
+https://github.com/rjsteinert/Fido
+
 
 # Install
 
