@@ -20,6 +20,11 @@ cd /root/Fido;
 npm install;
 cp /root/Fido/util/settings.default.json /root/Fido/settings.json
 cp /root/Fido/util/config.default.json /root/Fido/config.json
+cd /root;
+git clone https://github.com/padelt/temper-python.git;
+cd temper-python; 
+sudo apt-get install python-usb;
+sudo python setup.py install
 reboot;
 ```
 
