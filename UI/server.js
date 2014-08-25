@@ -106,12 +106,12 @@ io.sockets.on('connection', function(socket){
   // set interval
   // @todo Look for no connection and kill this timer
   setInterval(function(){
-    fs.readFile('/srv/tmp/temper1', {encoding:'utf8'}, function(err, value) {
+    fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
       socket.emit('temperature',{number: value})
     })
   }, sensorPollIntervalDuringSocketIoConnection)
   // start quickly
-  fs.readFile('/srv/tmp/temper1', {encoding:'utf8'}, function(err, value) {
+  fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
     socket.emit('temperature',{number: value})
   })
 })
@@ -133,7 +133,7 @@ setInterval(function() {
       || settings.alertSwitch == null) 
         return  
 
-    fs.readFile('/srv/tmp/temper1', {encoding:'utf8'}, function(err, value) {
+    fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
       l.g('value found to evaluate for trigger: ' + value)
       var temperature = convertCtoF(value) 
       if(temperature > parseInt(settings.alertUpperLimit)) {

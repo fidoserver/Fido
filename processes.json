@@ -20,7 +20,7 @@
     "readyMessage": "forever::ready"
   },
   {
-    "file": "Sensors/temper1/process.js",
+    "file": "Sensors/grove_dht/process.js",
     "options": {
       "max": 3,
       "silent": true,
