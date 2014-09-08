@@ -58,8 +58,10 @@ app.get('/settings', function(req, res) {
 })
 
 app.post('/settings', function(req, res) {
+l.g('hello world')
   var newSettings = req.body
   var newWifiSettings = false
+  var newHostName = false
   fs.readFile(__dirname + "/../settings.json",{encoding: 'utf8'}, function(err, body) {
     if (body) {
       var oldSettings = JSON.parse(body)
@@ -67,24 +69,45 @@ app.post('/settings', function(req, res) {
     else {
       var oldSettings = {}
     }
-    if (newSettings.wifiSSID !== oldSettings.wifiSSID 
-      || newSettings.wifiPassword !== oldSettings.wifiPassword 
-      || newSettings.hostName !== oldSettings.hostName) {
+    if ( newSettings.wifiSSID !== '' &&
+      (newSettings.wifiSSID !== oldSettings.wifiSSID 
+      || newSettings.wifiPassword !== oldSettings.wifiPassword)) {
         newWifiSettings = true  
+    }
+    if ( newSettings.hostName !== '' && newSettings.hostName !== oldSettings.hostName) {
+      newHostName = true  
     }
     fs.writeFile(__dirname + "/../settings.json", JSON.stringify(newSettings), function(err) {
       if (err) return l.g(err)
-      if (newWifiSettings == true) {
+      if (newWifiSettings == true && newHostName == true) {
+        l.g('newHostName is true and newWifiSettings is true')
         require('./lib/ReconfigureNetwork')(newSettings.wifiSSID, newSettings.wifiPassword, newSettings.wifiSecurityType, function(err) {
           if (err) return l.g(err)
           require('./lib/ReconfigureHostname')(newSettings.hostName, oldSettings.hostName, function(err) {
             if (err) return l.g(err)
             require('./lib/Reboot')(function() {l.g('reboot has been issued')})
-            res.send(newWifiSettings)
+            res.send(newSettings)
           })
         })
       }
+      else if (newWifiSettings == true) {
+        l.g('newWifiSettings is true')
+        require('./lib/ReconfigureNetwork')(newSettings.wifiSSID, newSettings.wifiPassword, newSettings.wifiSecurityType, function(err) {
+          if (err) return l.g(err)
+          require('./lib/Reboot')(function() {l.g('reboot has been issued')})
+          res.send(newSettings)
+        })
+      }
+      else if (newHostName == true) {
+        l.g('newHostName is true')
+        require('./lib/ReconfigureHostname')(newSettings.hostName, oldSettings.hostName, function(err) {
+          if (err) return l.g(err)
+          require('./lib/Reboot')(function() {l.g('reboot has been issued')})
+          res.send(newSettings)
+        })
+      }
       else {
+        l.g('newHostName is false and newWifiSettings is false')
         res.send(newSettings)
       }
     })
