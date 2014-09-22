@@ -7,6 +7,10 @@ $(function() {
       'graphType': 'Live Stream'
     },
     schema: {
+      'Sensor': {
+        type: 'Select',
+        options: ['temper1', 'grove_dht']
+      },
       'graphType': {
         type: 'Select',
         options: ['Live Stream', 'Live Aggregated']

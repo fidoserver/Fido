@@ -106,6 +106,10 @@ l.g('hello world')
           res.send(newSettings)
         })
       }
+      else if (newSettings.Sensor !== oldSettings.Sensor) {
+        require('./lib/Reboot')(function() {l.g('reboot has been issued')})
+        res.send(newSettings)
+      }
       else {
         l.g('newHostName is false and newWifiSettings is false')
         res.send(newSettings)
@@ -128,13 +132,14 @@ io.sockets.on('connection', function(socket){
   l.g('User connected via socket.io')
   // set interval
   // @todo Look for no connection and kill this timer
+  var settings = JSON.parse(fs.readFileSync(__dirname + '/../settings.json', 'utf8'))
   setInterval(function(){
-    fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
+    fs.readFile('/srv/tmp/' + settings.Sensor, {encoding:'utf8'}, function(err, value) {
       socket.emit('temperature',{number: value})
     })
   }, sensorPollIntervalDuringSocketIoConnection)
   // start quickly
-  fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
+  fs.readFile('/srv/tmp/' + settings.Sensor, {encoding:'utf8'}, function(err, value) {
     socket.emit('temperature',{number: value})
   })
 })
@@ -156,7 +161,7 @@ setInterval(function() {
       || settings.alertSwitch == null) 
         return  
 
-    fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
+    fs.readFile('/srv/tmp/' + settings.Sensor, {encoding:'utf8'}, function(err, value) {
       l.g('value found to evaluate for trigger: ' + value)
       var temperature = convertCtoF(value) 
       if(temperature > parseInt(settings.alertUpperLimit)) {

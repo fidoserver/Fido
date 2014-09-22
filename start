@@ -7,7 +7,18 @@ var l = require('./lib/log.js')
 l.context = __filename
 
 var processes = JSON.parse(fs.readFileSync(__dirname + '/processes.json'))
-
+var settings = JSON.parse(fs.readFileSync(__dirname + '/settings.json', 'utf8'))
+processes.push(  {
+    "file": "Sensors/" + settings.Sensor + "/process.js",
+    "options": {
+      "max": 3,
+      "silent": true,
+      "outFile": "/var/log/fido.log",
+      "errFile": "/var/log/fido.log"
+    },
+    "readyMessage": "forever::ready"
+  }
+)
 var i = 0
 var startNextProcess = function(process) {
   if (process == undefined) return done() 
