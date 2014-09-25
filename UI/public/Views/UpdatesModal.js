@@ -17,9 +17,10 @@ $(function() {
     body: '.modal-body',
 
     installUpdates: function() {
+      alert("Updates will now run. Click ok to continue. When updates complete, you will be notified again.")
       $.get('/updater/run-available-updates', function(data) {
         if (data == '"ok"') {
-          alert('Updates have installed. Reloading your browser now.')
+          alert('Updates have installed. Reboot your Fido to finish the update process.')
           location.reload()
         }
         else if (data == '"reboot"') {

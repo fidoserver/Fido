@@ -8,6 +8,7 @@ l.context = __filename
 
 var processes = JSON.parse(fs.readFileSync(__dirname + '/processes.json'))
 var settings = JSON.parse(fs.readFileSync(__dirname + '/settings.json', 'utf8'))
+if (settings.Sensor) {
 processes.push(  {
     "file": "Sensors/" + settings.Sensor + "/process.js",
     "options": {
@@ -19,7 +20,10 @@ processes.push(  {
     "readyMessage": "forever::ready"
   }
 )
+}
+
 var i = 0
+
 var startNextProcess = function(process) {
   if (process == undefined) return done() 
   var child = new (foreverMonitor.Monitor)(__dirname + '/' + process.file, process.options)
