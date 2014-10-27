@@ -30,6 +30,26 @@
     "readyMessage": "forever::ready"
   },
   {
+    "file": "/root/Hive/Honeycomb/server.js",
+    "options": {
+      "max": 3,
+      "silent": true,
+      "outFile": "/var/log/hive.log",
+      "errFile": "/var/log/hive.log"
+    },
+    "readyMessage": "forever::ready"
+  },
+  {
+    "file": "/root/Hive/Queen/server.js",
+    "options": {
+      "max": 3,
+      "silent": true,
+      "outFile": "/var/log/hive.log",
+      "errFile": "/var/log/hive.log"
+    },
+    "readyMessage": "forever::ready"
+  },
+  {
     "file": "/root/Hive/Router/server.js",
     "options": {
       "max": 3,

@@ -1,5 +1,8 @@
 var fs = require('fs')
-var config = fs.readFileSync(__dirname + '/../config.json')
+var config = JSON.parse(fs.readFileSync('/root/Fido/config.json'))
+var nano = require('nano')('http://127.0.0.1:5984')
+var db = nano.use('sensor_84cb5aa0a7c766ad1cae0c0fe500270a')
+
 
 // If no Hive config, quit
 if (!config.hasOwnProperty('Hive')) {
@@ -16,7 +19,7 @@ var l = require('../lib/log.js')
 l.context = __filename 
 
 
-var interval = 5*60*1000
+var interval = 10*1000
 
 function go() {
   getMacAddress()
@@ -54,7 +57,7 @@ var createBee = function() {
     "url": config.Hive.Queen.Url + "/egg/new", 
     method: "POST", 
     json: {
-      "sensors": ["0x02"], 
+      "sensors": ["0x01"], 
       "address": macAddress
     }
   }, function(err, response, body) {
@@ -69,15 +72,20 @@ var setTimer = function() {
 
   setInterval(function() {
 
-    fs.readFile('/srv/tmp/temper1', {encoding:'utf8'}, function(err, value) {
+    fs.readFile('/srv/tmp/grove_dht', {encoding:'utf8'}, function(err, value) {
 
       if(err) return console.log(err)
+      db.insert({d: value}, moment.utc().format('X'), function(err, body) {
+        if(err) return console.log(err)
+      })
 
+      /*
       var dateTime = moment().format("HH:mm:ss, DD/MM/YY")
       var data = JSON.parse('{"address":"' + macAddress + '", "data": {"' + dateTime + '": "' + value.toString(16) + '"}}') 
       request({url:config.Hive.Honeycomb.Url, method: "POST", json: data}, function(err, response, body) {
         if (err) return console.log(err)
       })
+      */
       
     })
 

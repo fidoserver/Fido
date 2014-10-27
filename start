@@ -10,7 +10,7 @@ var processes = JSON.parse(fs.readFileSync(__dirname + '/processes.json'))
 var settings = JSON.parse(fs.readFileSync(__dirname + '/settings.json', 'utf8'))
 if (settings.Sensor) {
 processes.push(  {
-    "file": "Sensors/" + settings.Sensor + "/process.js",
+    "file": "/root/Fido/Sensors/" + settings.Sensor + "/process.js",
     "options": {
       "max": 3,
       "silent": true,
@@ -26,7 +26,7 @@ var i = 0
 
 var startNextProcess = function(process) {
   if (process == undefined) return done() 
-  var child = new (foreverMonitor.Monitor)(__dirname + '/' + process.file, process.options)
+  var child = new (foreverMonitor.Monitor)(process.file, process.options)
   child.on('start', function(foreverProcess, data) {
     l.g('Starting ' + process.file)
   })
