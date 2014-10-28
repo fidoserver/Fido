@@ -6,7 +6,7 @@ var interval = 5 * 1000
 var previousStdout = ''
 
 var pollSensor = function() {
-  var cmd = 'python /root/Fido/Sensors/grove_dht/poll.py'
+  var cmd = 'node /root/Fido/Sensors/dusttrack/poll.js'
   exec(cmd, function(err, stdout, stderr) {
     if(stdout !== previousStdout) {
       l.g(stdout)
