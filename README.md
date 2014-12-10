@@ -8,6 +8,7 @@ https://github.com/rjsteinert/Fido
 # Install
 
 ```
+sudo su;
 npm install -g forever;
 cd /root;
 git clone https://github.com/rjsteinert/Fido.git; 
